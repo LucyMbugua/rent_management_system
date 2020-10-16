@@ -25,11 +25,14 @@ Rent Management | RMS
         <form action="{{url_for('houses')}}" method="POST"><!--inventories here is the function-->
           <div class="form-group">
                 <label for="exampleFormControlSelect1">Property</label>
+                
                 <select class="form-control" name="property_id" required>
-                  <option></option>
-                  <option value="1">Keights Apartments</option>
-                  <option value ="2">ABC Apartments</option> 
+                  {%for each in all_properties%}
+                  <option value={{each.id}}>{{each.property_name}}</option>
+                  {%endfor%}
                 </select>
+                
+              
           </div>
           <div class="form-group">
             <label for="house_name">Name</label>
@@ -70,7 +73,7 @@ Rent Management | RMS
       <tr>
          
         <td> {{each.id }}</td>
-        <td> {{ each.property_name }}</td>
+        <td> {{get_property_name(each.property_id).property_name}}</td>
         <td> {{ each.house_name }}</td>
         <td> {{ each.rent_amount }}</td>
         <td>   
@@ -89,10 +92,10 @@ Rent Management | RMS
                       <form action="{{url_for('edit_house',house_id=each.id)}}" method="POST">
                         <div class="form-group">
                             <label for="exampleFormControlSelect1">Property</label>
-                            <select class="form-control" name="property_id">
-                              <option selected value="{{each.property_id}}">{{each.property_id}}</option>
-                              <option value="1">Keights Apartments</option>
-                              <option value ="2">ABC Apartments</option> 
+                            <select class="form-control" name="property_id" required>
+                              {%for each in all_properties%}
+                              <option selected value="{{each.id}}">{{each.property_name}}</option>
+                              {%endfor%}
                             </select>
                           </div>
                         <div class="form-group">

@@ -7,6 +7,7 @@ class PropertyModel(db.Model):
     property_name = db.Column(db.String(55), nullable=False)
     address = db.Column(db.String(55), nullable=False)
     created_at = db.Column(db.DateTime(timezone=True), default=func.now())
+    
 
     def create_record(self):
         db.session.add(self)

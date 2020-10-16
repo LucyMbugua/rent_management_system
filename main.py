@@ -21,6 +21,13 @@ def create_tables():
     db.create_all()
     #db.drop_all()
  
+@app.context_processor#used to pass functions to html using jinja
+def utility_processor():# first function must be named utility_processor
+    def get_property_name(property_id):
+        property_details= PropertyModel.query.filter_by(id=property_id).first()#fetch inventory that matches the id passed in the html each.id
+        return property_details
+    return dict(get_property_name=get_property_name)
+
 
 @app.route('/properties', methods=['GET','POST'])
 def properties():
@@ -73,6 +80,7 @@ def delete_property(property_id):
 def houses():
 
     houses=HouseModel.fetch_all()
+    properties =PropertyModel.fetch_all()
     print(houses)
     if request.method == 'POST':
         property_id =request.form['property_id']
@@ -85,7 +93,7 @@ def houses():
        
         return redirect(url_for('houses'))
 
-    return render_template('houses.html', all_houses = houses)
+    return render_template('houses.html', all_houses = houses, all_properties=properties)
 
 @app.route("/edit_house/<house_id>", methods=['POST'])
 def edit_house(house_id):
@@ -122,7 +130,9 @@ def delete_house(house_id):
 def tenants():
 
     tenants=TenantModel.fetch_all()
-    print(tenants)
+    properties =PropertyModel.fetch_all()
+    houses =HouseModel.fetch_all()
+    
     if request.method == 'POST':
         fname = request.form['fname']
         lname = request.form['lname']
@@ -136,7 +146,27 @@ def tenants():
        
         return redirect(url_for('tenants'))
 
-    return render_template('tenants.html', all_tenants = tenants)
+    return render_template('tenants.html', all_tenants = tenants,all_properties=properties,all_houses=houses)
+
+
+@app.route("/edit_tenant/<tenant_id>", methods=['POST'])
+def edit_tenant(tenant_id):
+    if request.method =='POST':
+        fname = request.form['fname']
+        lname = request.form['lname']
+        email = request.form['email']
+        property_id=request.form['property_id']
+        house_id=request.form['house_id']
+        
+        record = TenantModel(fname=fname,lname=lname,email=email, property_id=property_id, house_id=house_id)
+        
+        if TenantModel.update_tenant(tenant_id=tenant_id,fname=fname,lname=lname,email=email, property_id=property_id, house_id=house_id):
+            flash("Record has been successifully updated","success")
+            return redirect(url_for('tenants'))
+
+        else:
+            flash("Error occurred while editing record","success")
+            return redirect(url_for('tenants'))
 
 @app.route('/delete_tenant/<tenant_id>', methods=['POST'])
 def delete_tenant(tenant_id):
@@ -151,9 +181,9 @@ def delete_tenant(tenant_id):
         flash("Error!! Operation unsuccessiful", "warning")
 
     return redirect(url_for('tenants'))
-   
+  
 @app.route("/make_payment/<tenant_id>", methods=['GET','POST'])
-def add_pet(tenant_id):
+def make_payment(tenant_id):
     
     if request.method == 'POST':
         date= request.form['date']

@@ -18,4 +18,20 @@ class TenantModel(db.Model):
     @classmethod
     def fetch_all(cls):
         return cls.query.all()
+
+
+    @classmethod
+    def update_tenant(cls, tenant_id,fname,lname,email, property_id, house_id):
+        record = cls.query.filter_by(id=tenant_id).first()
+        if record:
+            
+            record.fname=fname
+            record.lname=lname
+            record.email=email
+            record.property_id=property_id
+            record.house_id=house_id
+            db.session.commit()
+            return True
+        else:
+            return False
     
