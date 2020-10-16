@@ -1,0 +1,21 @@
+from main import db
+from sqlalchemy import func
+
+class TenantModel(db.Model):
+    __tablename__="tenants"
+    id = db.Column(db.Integer, primary_key=True)
+    fname = db.Column(db.String(55), nullable=False)
+    lname = db.Column(db.String(55), nullable=False)
+    email = db.Column(db.VARCHAR(30), nullable=False,unique=True)
+    property_id =db.Column(db.Integer, db.ForeignKey('properties.id'))
+    house_id =db.Column(db.Integer, db.ForeignKey('houses.id'))
+    created_at = db.Column(db.DateTime(timezone=True), default=func.now())
+
+    def create_record(self):
+        db.session.add(self)
+        db.session.commit()
+    #fetch records
+    @classmethod
+    def fetch_all(cls):
+        return cls.query.all()
+    

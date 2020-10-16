@@ -27,7 +27,7 @@ function global:deactivate ([switch]$NonDestructive) {
 
 deactivate -nondestructive
 
-$env:VIRTUAL_ENV="C:\Users\zennah\Documents\python_bootcamp\rent_management_system\env"
+$env:VIRTUAL_ENV="c:\Users\zennah\Documents\python_bootcamp\inventory_management_ystem\env"
 
 if (! $env:VIRTUAL_ENV_DISABLE_PROMPT) {
     # Set the prompt to include the env name

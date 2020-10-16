@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set VIRTUAL_ENV=C:\Users\zennah\Documents\python_bootcamp\rent_management_system\env
+set VIRTUAL_ENV=c:\Users\zennah\Documents\python_bootcamp\inventory_management_ystem\env
 
 if not defined PROMPT set PROMPT=$P$G
 

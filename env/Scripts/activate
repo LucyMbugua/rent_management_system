@@ -37,7 +37,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\zennah\Documents\python_bootcamp\rent_management_system\env"
+VIRTUAL_ENV="c:\Users\zennah\Documents\python_bootcamp\inventory_management_ystem\env"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
