@@ -24,9 +24,38 @@ def create_tables():
 @app.context_processor#used to pass functions to html using jinja
 def utility_processor():# first function must be named utility_processor
     def get_property_name(property_id):
-        property_details= PropertyModel.query.filter_by(id=property_id).first()#fetch inventory that matches the id passed in the html each.id
+        property_details= PropertyModel.query.filter_by(id=property_id).first()
         return property_details
     return dict(get_property_name=get_property_name)
+
+@app.context_processor#used to pass functions to html using jinja
+def utility_processor():# first function must be named utility_processor
+    def get_house_details(house_id):
+        house_details= HouseModel.query.filter_by(id=house_id).first()
+        return house_details
+    return dict(get_house_details=get_house_details)
+
+@app.context_processor#used to pass functions to html using jinja
+def utility_processor():# first function must be named utility_processor
+    def get_payment_details(tenant_id):
+        payment_details= PaymentModel.query.filter_by(tenant_id=tenant_id).first()
+        return payment_details
+    return dict(get_payment_details=get_payment_details)
+
+@app.context_processor#used to pass functions to html using jinja
+def utility_processor():# first function must be named utility_processor
+    def get_rent_balance(house_id, tenant_id):
+        house_details= HouseModel.query.filter_by(id=house_id).first()
+        payment_details= PaymentModel.query.filter_by(tenant_id=tenant_id).first()
+        rent_expected=int(house_details.rent_amount) 
+        rent_paid =int(payment_details.amount)
+        balance=rent_expected - rent_paid
+        print(balance)
+    
+        return balance
+    return dict(get_rent_balance=get_rent_balance)
+
+
 
 
 @app.route('/properties', methods=['GET','POST'])
@@ -51,9 +80,7 @@ def edit_property(property_id):
     if request.method =='POST':
         property_name = request.form['property_name']
         address = request.form['address']
-        
-        record = PropertyModel(property_name=property_name, address=address)
-
+      
         if PropertyModel.update_property(property_id=property_id,property_name=property_name, address=address):
             flash("Record has been successifully updated","success")
             return redirect(url_for('properties'))
@@ -101,9 +128,7 @@ def edit_house(house_id):
         property_id =request.form['property_id']
         house_name = request.form['house_name']
         rent_amount = request.form['rent_amount']
-        
-        record = HouseModel(property_id=property_id, house_name= house_name, rent_amount=rent_amount)
-
+    
         if HouseModel.update_house(house_id=house_id,property_id=property_id, house_name= house_name, rent_amount=rent_amount):
             flash("Record has been successifully updated","success")
             return redirect(url_for('houses'))
@@ -157,8 +182,6 @@ def edit_tenant(tenant_id):
         email = request.form['email']
         property_id=request.form['property_id']
         house_id=request.form['house_id']
-        
-        record = TenantModel(fname=fname,lname=lname,email=email, property_id=property_id, house_id=house_id)
         
         if TenantModel.update_tenant(tenant_id=tenant_id,fname=fname,lname=lname,email=email, property_id=property_id, house_id=house_id):
             flash("Record has been successifully updated","success")

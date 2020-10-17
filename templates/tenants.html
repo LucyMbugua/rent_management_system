@@ -73,9 +73,11 @@ Rent Management | RMS
         <th> Id</th>
         <th> First Name</th>
         <th> Last Name</th>
-        <th> E-mail</th>
         <th> Property</th>
         <th> House No.</th>
+        <th> Rent</th>
+        <th> Amount Paid</th>
+        <th> Balance</th>
         <th> Action</th>
       </tr>
     </thead>
@@ -86,9 +88,12 @@ Rent Management | RMS
         <td> {{each.id }}</td>
         <td> {{ each.fname }}</td>
         <td> {{ each.lname }}</td>
-        <td> {{ each.email }}</td>
-        <td> {{ each.property_id }}</td>
-        <td> {{each.house_name}}</td>
+        <td> {{get_property_name(each.property_id).property_name}}</td>
+        <td> {{get_house_details(each.house_id).house_name}}</td>
+        <td>{{get_house_details(each.house_id).rent_amount}}</td>
+        <td>{{get_payment_details(each.id).amount}}</td>
+        <td></td>
+        
         
         <td>  
           <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#makePayment{{each.id}}"><i class="fa fa-plus" aria-hidden="true"></i>Make Payment</button>
@@ -110,7 +115,7 @@ Rent Management | RMS
                         </div>
                         <div class="form-group">
                           <label for="lname">Amount</label>
-                          <input type="number" name ="amount" class="form-control" aria-describedby="nameHelp" placeholder="amount" required>
+                          <input type="number" name ="amount" class="form-control" aria-describedby="nameHelp" placeholder="Amount" required>
                         </div>
                         
                       
@@ -128,7 +133,7 @@ Rent Management | RMS
               </div>
           
           
-          <button type="button" class="btn btn-info"data-toggle="modal" data-target="#editTenant{{each.id}}">Edit Tenant</button>
+          <button type="button" class="btn btn-info"data-toggle="modal" data-target="#editTenant{{each.id}}">Edit</button>
           <!-- Modal -->
           <div class="modal fade" id="editTenant{{each.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
