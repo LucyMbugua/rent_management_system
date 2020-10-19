@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{%block title%}
+Rent Management | Dashboard
+{%endblock %}
+
+{%block content%}
+<div class="container mt-5" >
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-body" style="display: block;">
+                    <div style="display: flex;">
+                        <i class="fa fa-home" aria-hidden="true"></i>
+                        <h4 class="card-title">Total Properties</h4>
+                    
+                    </div>
+                    <div>
+                        <h2>{{total_properties}}</h2>
+                    </div>
+                    <div>
+                        <a href="{{url_for('properties')}}">Properties</a>
+                    </div>
+                  
+                </div>
+              </div>
+
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-body" style="display: block;">
+                    <div style="display: flex;">
+                        <i class="fa fa-home" aria-hidden="true"></i>
+                        <h4 class="card-title">Total Houses</h4>
+                    
+                    </div>
+                    <div>
+                        <h2>{{total_houses}}</h2>
+                    </div>
+                    <div>
+                        <a href="{{url_for('houses')}}">Houses</a>
+                    </div>
+                    
+                  
+                </div>
+              </div>
+
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-body" style="display: block;">
+                    <div style="display: flex;">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                        <h4 class="card-title">Total Tenants</h4>
+                    
+                    </div>
+                    <div>
+                        <h2>{{total_tenants}}</h2>
+                    </div>
+                    <div>
+                        <a href="{{url_for('tenants')}}">Tenants</a>
+                    </div>
+                    
+                  
+                </div>
+              </div>
+
+        </div>
+        
+
+    </div>
+
+    <div class="row">
+        <div class="col mt-5" >
+            <!-- Don't forget the "|safe"! -->
+            <div class="d-flex justify-content-center ml-auto" id="chart">
+                <embed type="image/svg+xml" src= {{ chart|safe }} />
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+{%endblock %}
+
+{%block footer%}
+<footer width="76%" border="0" align="center" valign="bottom" cellspacing="0" cellpadding="0" id="main-footer">
+    <p>Copyright &copy; 2020 Great Wall Realtors INC</p>
+</footer>
+{%endblock %}

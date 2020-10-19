@@ -10,7 +10,8 @@ class TenantModel(db.Model):
     property_id =db.Column(db.Integer, db.ForeignKey('properties.id'))
     house_id =db.Column(db.Integer, db.ForeignKey('houses.id'))
     created_at = db.Column(db.DateTime(timezone=True), default=func.now())
-
+    payment = db.relationship('PaymentModel', backref="tenant", lazy=True)#sales & stock are always a list of objects
+    
     def create_record(self):
         db.session.add(self)
         db.session.commit()

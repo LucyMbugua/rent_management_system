@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
+import pygal
 #import config class
 from settings.configs import DevelopmentConfig, ProductionConfig
 # import db connection
@@ -225,14 +226,25 @@ def about():
 def contact():
     return render_template('about.html')
 
-
 @app.route('/')
 def index():
     return render_template('index.html')
 
-@app.route('/charts')
-def charts():
-    return render_template('charts.html')
+@app.route('/dashboard')
+def dashboard():
+    total_properties=len(PropertyModel.fetch_all())
+    total_houses =len(HouseModel.fetch_all())
+    total_tenants =len(TenantModel.fetch_all())
+
+    pie_chart = pygal.Pie()
+    pie_chart.title = 'No of Houses vs No of Tenants'
+    pie_chart.add('Houses', total_houses)
+    pie_chart.add('Tenants', total_tenants)
+    pie= pie_chart.render_data_uri()
+    return render_template('dashboard.html', total_properties=total_properties, total_houses=total_houses, total_tenants=total_tenants, chart=pie)
+
+
+
 
 
 
